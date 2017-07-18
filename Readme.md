@@ -7,7 +7,7 @@ Tenable's Nessus Scanner is a vulnerability scanner that looks for known vulnera
 
 # Build files
 
-The github repository for the build files is located [here](https://github.com/SteveMcGrath/Dockerfiles/tree/master/nessus/scanner).
+The github repository for the build files is located [here](https://github.com/stevemcgrath/docker-nessus_scanner).
 
 # Supported tags
 
@@ -19,7 +19,10 @@ Each image is tagged with the major, minor, and patch releases.  The most curren
 
 # Environmental Variables
 
-* **LINKING_KEY** _**(required)**_ - Linking key to use for linking the scanner to Tenable.io/Nessus Manager
+**NOTE**: You must specify either a linking key or a license code.
+
+* **LINKING_KEY** _**(required)**_ - Linking key to use for linking the scanner to Tenable.io
+* **LICENSE** _**(required)**_ - Activation code (if not a Tenable.io linked scanner)
 * **SCANNER_NAME** _(optional)_ - Override the default behavior of registering with the hostname
 * **MANAGER_HOST** _(optional)_ - Nessus Manager address
 * **MANAGER_PORT** _(optional)_ - Nessus Manager service port
