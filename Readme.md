@@ -15,7 +15,15 @@ Each image is tagged with the major, minor, and patch releases.  The most curren
 
 # Usage
 
-`docker run -t -e LINKING_KEY={LINKING_KEY} stevemcgrath/nessus_scanner:latest`
+```
+docker volume create nessus_scanner_var
+docker run -dt \
+    -v nessus_scanner_var:/opt/nessus/var/nessus\
+    -e LINKING_KEY={LINKING_KEY}\
+    -e SCANNER_NAME={SCANNER_NAME}\
+    --name nessus_scanner
+    stevemcgrath/nessus_scanner:latest
+```
 
 # Environmental Variables
 
