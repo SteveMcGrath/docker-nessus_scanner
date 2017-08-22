@@ -22,4 +22,4 @@ if [ "$(/opt/nessus/sbin/nessuscli managed status | grep "Linked to" | wc -l)" =
 fi
 
 
-/opt/nessus/sbin/nessusd
+/opt/nessus/sbin/nessus-service
