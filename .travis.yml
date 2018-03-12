@@ -1,3 +1,5 @@
 sudo: required
 services: docker
-script: build.sh
+script: 
+  - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+  - build.sh
