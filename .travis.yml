@@ -1,8 +1,7 @@
 sudo: required
 services: docker
 env:
-  - REPOSITORY=stevemcgrath/nessus_scanner
-  - IMAGE_NAME=nessus_scanner
+  - REPOSITORY=stevemcgrath/nessus_scanner IMAGE_NAME=nessus_scanner
 script: 
   - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
   - docker build . -t ${IMAGE_NAME}:latest
