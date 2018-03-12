@@ -1,16 +1,14 @@
 sudo: required
 services: docker
-env:
-  - REPOSITORY=stevemcgrath/nessus_scanner IMAGE_NAME=nessus_scanner
 script: 
   - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
-  - docker build . -t ${IMAGE_NAME}:latest
-  - version=$(docker run --rm -it ${IMAGE_NAME}:latest /opt/nessus/sbin/nessusd --version | awk '{print $3}' | head -n1)
-  - major=$(echo ${version} | cut -d '.' -f 1)
-  - minor=$(echo ${version} | cut -d '.' -f 2)
-  - docker tag nessus:latest ${REPOSITORY}:${major}
-  - docker tag ${IMAGE_NAME}:latest ${REPOSITORY}:${major}.${minor}
-  - docker tag ${IMAGE_NAME}:latest ${REPOSITORY}:latest
-  - docker push ${REPOSITORY}:${major}
-  - docker push ${REPOSITORY}:${major}.${minor}
-  - docker push ${REPOSITORY}:latest
+  - docker build . -t nessus_scanner:latest
+  - VERSION=$(docker run --rm -it nessus_scanner:latest /opt/nessus/sbin/nessusd --version | awk '{print $3}' | head -n1)
+  - MAJOR=$(echo ${version} | cut -d '.' -f 1)
+  - MINOR=$(echo ${version} | cut -d '.' -f 2)
+  - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:${MAJOR}
+  - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:${MAJOR}.${MINOR}
+  - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:latest
+  - docker push stevemcgrath/nessus_scanner:${MAJOR}
+  - docker push stevemcgrath/nessus_scanner:${MAJOR}.${MINOR}
+  - docker push stevemcgrath/nessus_scanner:latest
