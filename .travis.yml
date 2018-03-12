@@ -3,9 +3,10 @@ services: docker
 script: 
   - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
   - docker build . -t nessus_scanner:latest
-  - VERSION=$(docker run --rm -it nessus_scanner:latest /opt/nessus/sbin/nessusd --version | awk '{print $3}' | head -n1)
-  - MAJOR=$(echo ${version} | cut -d '.' -f 1)
-  - MINOR=$(echo ${version} | cut -d '.' -f 2)
+  - export VERSION=$(docker run --rm -it nessus_scanner:latest /opt/nessus/sbin/nessusd --version | awk '{print $3}' | head -n1)
+  - export MAJOR=$(echo ${VERSION} | cut -d '.' -f 1)
+  - export MINOR=$(echo ${VERSION} | cut -d '.' -f 2)
+  - echo "Discovered Nessus Version ${VERSION} - ${MAJOR}.${MINOR}"
   - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:${MAJOR}
   - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:${MAJOR}.${MINOR}
   - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:latest

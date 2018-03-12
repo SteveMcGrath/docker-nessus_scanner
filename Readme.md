@@ -1,4 +1,4 @@
-# Nessus Scanner
+# Nessus Scanner [![Build Status](https://travis-ci.org/SteveMcGrath/docker-nessus_scanner.svg?branch=master)](https://travis-ci.org/SteveMcGrath/docker-nessus_scanner)
 
 Tenable's Nessus Scanner is a vulnerability scanner that looks for known vulnerabilities, malware, configuration issues, etc. both through network inspection of hosts and through authenticated analysis of the host itself.  For more information about Nessus, please consult the following links:
 
