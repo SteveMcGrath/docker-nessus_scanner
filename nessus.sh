@@ -14,12 +14,20 @@ function link_scanner {
         /opt/nessus/sbin/nessuscli managed link ${args}
     elif [ -n "${LICENSE}" ];then
         /opt/nessus/sbin/nessuscli fetch --register "${LICENSE}"
+    elif [ -n "${SECURITYCENTER}" ];then
+        /opt/nessus/sbin/nessuscli fetch --security-center
     fi
 }
 
 if [ "$(/opt/nessus/sbin/nessuscli managed status | grep "Linked to" | wc -l)" == "0" ] && [ -n "${LINKING_KEY}" ];then
     link_scanner
 fi
+
+if [ -n "${ADMIN_USER}" ] && [ -n "${ADMIN_PASS}" ];then
+    if [[ ! "$(/opt/nessus/sbin/nessuscli lsuser)" =~ "${ADMIN_USER}" ]];then
+        /usr/bin/nessus_adduser.exp "${ADMIN_USER}" "${ADMIN_PASS}"
+    fi
+fi 
 
 
 /opt/nessus/sbin/nessus-service

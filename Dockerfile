@@ -10,18 +10,17 @@ ENV PROXY_USER   ""
 ENV PROXY_PASS   ""
 ENV PROXY_AGENT  ""
 ENV LICENSE      ""
+ENV ADMIN_USER   ""
+ENV ADMIN_PASS   ""
 
-COPY nessus.sh /usr/bin
-COPY download.py /tmp
-COPY supervisor.conf /etc
+COPY nessus.sh nessus_adduser.exp /usr/bin/
+COPY yum.repo /etc/yum.repos.d/Tenable.repo
+COPY gpg.key /etc/pki/rpm-gpg/RPM-GPG-KEY-Tenable
 
-RUN chmod 755 /usr/bin/nessus.sh                    \
-    && python /tmp/download.py                      \
-    && yum -y -q install epel-release               \
-    && yum -y -q install /tmp/Nessus.rpm supervisor \
+RUN yum -y -q install Nessus                        \
     && yum -y -q clean all                          \
     && chmod 755 /usr/bin/nessus.sh                 \
-    && rm -f /tmp/Nessus.rpm                        \
+    && chmod 755 /usr/bin/nessus_adduser.exp        \
     && rm -f /opt/nessus/var/nessus/*.db*           \
     && rm -f /opt/nessus/var/nessus/master.key      \
     && rm -f /opt/nessus/var/nessus/uuid            \
@@ -30,4 +29,4 @@ RUN chmod 755 /usr/bin/nessus.sh                    \
 VOLUME /opt/nessus/var/nessus
 EXPOSE 8834
 
-CMD ["/usr/bin/supervisord", "-nc", "/etc/supervisor.conf"]
+CMD ["/usr/bin/nessus.sh"]

@@ -31,6 +31,7 @@ docker run -dt \
 
 * **LINKING_KEY** _**(required)**_ - Linking key to use for linking the scanner to Tenable.io
 * **LICENSE** _**(required)**_ - Activation code (if not a Tenable.io linked scanner)
+* **SECURITYCENTER** _**(required)**_ - If the scanner is to be SecurityCenter linked, then simply set this variable to "Yes" instead of setting a _LICENSE_ or _LINKING_KEY_ variable.
 * **SCANNER_NAME** _(optional)_ - Override the default behavior of registering with the hostname
 * **MANAGER_HOST** _(optional)_ - Nessus Manager address
 * **MANAGER_PORT** _(optional)_ - Nessus Manager service port
@@ -39,3 +40,5 @@ docker run -dt \
 * **PROXY_USER** _(optional)_ - Proxy account username
 * **PROXY_PASS** _(optional)_ - Proxy account password
 * **PROXY_AGENT** _(optional)_ - Proxy agent string
+* **ADMIN_USER** _(optional)_ - Username for admin user creation
+* **ADMIN_PASS** _(optional)_ - Password for admin user creation
