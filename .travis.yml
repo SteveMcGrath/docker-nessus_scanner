@@ -1,8 +1,10 @@
 sudo: required
 services: docker
+before_install: sudo pip install csup
 script: 
   - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
   - docker build . -t nessus_scanner:latest
+  - csup upload nessus_scanner --tag latest --consec-name sensors/nessus --consec-tag latest -rp
   - export VERSION=$(docker run --rm -it nessus_scanner:latest /opt/nessus/sbin/nessusd --version | awk '{print $3}' | head -n1)
   - export MAJOR=$(echo ${VERSION} | cut -d '.' -f 1)
   - export MINOR=$(echo ${VERSION} | cut -d '.' -f 2)
