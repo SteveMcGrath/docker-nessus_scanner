@@ -25,9 +25,8 @@ fi
 
 if [ -n "${ADMIN_USER}" ] && [ -n "${ADMIN_PASS}" ];then
     if [[ ! "$(/opt/nessus/sbin/nessuscli lsuser)" =~ "${ADMIN_USER}" ]];then
-        /usr/bin/nessus_adduser.exp "${ADMIN_USER}" "${ADMIN_PASS}"
+        /usr/bin/nessus_adduser.exp "${ADMIN_USER}" "${ADMIN_PASS}" > /dev/null
     fi
 fi 
-
 
 /opt/nessus/sbin/nessus-service
