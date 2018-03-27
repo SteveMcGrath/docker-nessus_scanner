@@ -8,10 +8,13 @@ script:
   - export VERSION=$(docker run --rm -it nessus_scanner:latest /opt/nessus/sbin/nessusd --version | awk '{print $3}' | head -n1)
   - export MAJOR=$(echo ${VERSION} | cut -d '.' -f 1)
   - export MINOR=$(echo ${VERSION} | cut -d '.' -f 2)
-  - echo "Discovered Nessus Version ${VERSION} - ${MAJOR}.${MINOR}"
+  - export PATCH=$(echo ${VERSION} | cut -d '.' -f 3)
+  - echo "Discovered Nessus Version ${VERSION} - ${MAJOR}.${MINOR}.${PATCH}"
   - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:${MAJOR}
   - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:${MAJOR}.${MINOR}
+  - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:${MAJOR}.${MINOR}.${PATCH}
   - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:latest
   - docker push stevemcgrath/nessus_scanner:${MAJOR}
   - docker push stevemcgrath/nessus_scanner:${MAJOR}.${MINOR}
+  - docker push stevemcgrath/nessus_scanner:${MAJOR}.${MINOR}.${PATCH}
   - docker push stevemcgrath/nessus_scanner:latest
