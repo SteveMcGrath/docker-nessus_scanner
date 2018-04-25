@@ -4,7 +4,7 @@ if [ "$(/opt/nessus/sbin/nessuscli fix --list | grep 'do not exist yet' | wc -l)
     echo "-- New Nessus Installation, Attempting to license it using the provided configuration"
     if [ "$(/opt/nessus/sbin/nessuscli managed status | grep 'Linked to' | wc -l)" == "0" ] && [ -n "${LINKING_KEY}" ];then
         echo "-- Linking Scanner to Tenable.io"
-        local args=" --key=${LINKING_KEY}"
+        args=" --key=${LINKING_KEY}"
         [ -n "${SCANNER_NAME}" ] && args=${args}" --name=${SCANNER_NAME}"
         [ -n "${PROXY_HOST}"   ] && args=${args}" --proxy-host=${PROXY_HOST}"
         [ -n "${PROXY_PORT}"   ] && args=${args}" --proxy-port=${PROXY_PORT}"
