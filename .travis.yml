@@ -9,7 +9,7 @@ script:
   - docker build . -t nessus_scanner:latest
   - |
     csup upload nessus_scanner --tag latest \
-      --consec-name sensors/nessus --consec-tag latest -
+      --consec-name sensors/nessus --consec-tag latest -rp
 after_success:
   - |
     export VERSION=$(docker run --rm -it nessus_scanner:latest \
