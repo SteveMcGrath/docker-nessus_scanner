@@ -33,10 +33,3 @@ after_success:
     docker push ${RPRE}/${RNAME}:${MAJOR}.${MINOR}                                &&\
     docker push ${RPRE}/${RNAME}:${MAJOR}.${MINOR}.${PATCH}                       &&\
     docker push ${RPRE}/${RNAME}:latest                     
-  - |
-    docker run --rm -v Readme.md:/data/README.md                                    \
-      -e DOCKERHUB_USERNAME=${DOCKER_USERNAME}                                      \
-      -e DOCKERHUB_PASSWORD=${DOCKER_PASSWORD}                                      \
-      -e DOCKERHUB_REPO_PREFIX=${RPRE}                                              \
-      -e DOCKERHUB_REPO_NAME=${RNAME}                                               \
-      sheogorath/readme-to-dockerhub
