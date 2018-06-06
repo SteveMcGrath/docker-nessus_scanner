@@ -25,13 +25,22 @@ docker run -dt \
     stevemcgrath/nessus_scanner:latest
 ```
 
+# Modifications
+
+* `/opt/nessus/bin` and `/opt/nessus/sbin` have been added to the system $PATH variable.
+* `nessus_adduser.exp` has been loaded into `/usr/bin` to facilitate in programmatic user creation when necessary.
+* `nessus.sh` has been loaded into `/usr/bin` as a wrapper to configure the Nessus daemon before launch.
+
 # Environmental Variables
 
-**NOTE**: You must specify either a linking key or a license code.
+## **One** of the following **MUST** be set:
 
 * **LINKING_KEY** _**(required)**_ - Linking key to use for linking the scanner to Tenable.io
 * **LICENSE** _**(required)**_ - Activation code (if not a Tenable.io linked scanner)
 * **SECURITYCENTER** _**(required)**_ - If the scanner is to be SecurityCenter linked, then simply set this variable to "Yes" instead of setting a _LICENSE_ or _LINKING_KEY_ variable.
+
+## The following are **OPTIONAL** parameters
+
 * **SCANNER_NAME** _(optional)_ - Override the default behavior of registering with the hostname
 * **MANAGER_HOST** _(optional)_ - Nessus Manager address
 * **MANAGER_PORT** _(optional)_ - Nessus Manager service port

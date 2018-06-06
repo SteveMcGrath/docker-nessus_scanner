@@ -1,20 +1,36 @@
 sudo: required
 services: docker
+env:
+  - RPRE=stevemcgrath RNAME=nessus_scanner
 before_install: sudo pip install csup
 script: 
   - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
   - docker build . -t nessus_scanner:latest
-  - csup upload nessus_scanner --tag latest --consec-name sensors/nessus --consec-tag latest -rp
-  - export VERSION=$(docker run --rm -it nessus_scanner:latest /opt/nessus/sbin/nessusd --version | awk '{print $3}' | head -n1)
+  - |
+    csup upload nessus_scanner --tag latest \
+      --consec-name sensors/nessus --consec-tag latest -
+before_deploy:
+  - |
+    export VERSION=$(docker run --rm -it nessus_scanner:latest \
+      /opt/nessus/sbin/nessusd --version | awk '{print $3}' | head -n1)
   - export MAJOR=$(echo ${VERSION} | cut -d '.' -f 1)
   - export MINOR=$(echo ${VERSION} | cut -d '.' -f 2)
   - export PATCH=$(echo ${VERSION} | cut -d '.' -f 3)
   - echo "Discovered Nessus Version ${VERSION} - ${MAJOR}.${MINOR}.${PATCH}"
-  - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:${MAJOR}
-  - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:${MAJOR}.${MINOR}
-  - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:${MAJOR}.${MINOR}.${PATCH}
-  - docker tag nessus_scanner:latest stevemcgrath/nessus_scanner:latest
-  - docker push stevemcgrath/nessus_scanner:${MAJOR}
-  - docker push stevemcgrath/nessus_scanner:${MAJOR}.${MINOR}
-  - docker push stevemcgrath/nessus_scanner:${MAJOR}.${MINOR}.${PATCH}
-  - docker push stevemcgrath/nessus_scanner:latest
+deploy:
+  - docker tag nessus_scanner:latest ${RPRE}/${RNAME}:${MAJOR}
+  - docker tag nessus_scanner:latest ${RPRE}/${RNAME}:${MAJOR}.${MINOR}
+  - docker tag nessus_scanner:latest ${RPRE}/${RNAME}:${MAJOR}.${MINOR}.${PATCH}
+  - docker tag nessus_scanner:latest ${RPRE}/${RNAME}:latest
+  - docker push ${RPRE}/${RNAME}:${MAJOR}
+  - docker push ${RPRE}/${RNAME}:${MAJOR}.${MINOR}
+  - docker push ${RPRE}/${RNAME}:${MAJOR}.${MINOR}.${PATCH}
+  - docker push ${RPRE}/${RNAME}:latest
+after-deploy:
+  - |
+    docker run --rm -v Readme.md:/data/README.md \
+      -e DOCKERHUB_USERNAME=${DOCKER_USERNAME} \
+      -e DOCKERHUB_PASSWORD=${DOCKER_PASSWORD} \
+      -e DOCKERHUB_REPO_PREFIX=${RPRE} \
+      -e DOCKERHUB_REPO_NAME=${RNAME} \
+      readme-to-hub
