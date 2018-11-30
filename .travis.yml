@@ -6,7 +6,7 @@ before_install:
   - export RNAME=nessus_scanner
   - docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
 script: 
-  - docker build . -t nessus_scanner:latest
+  - docker build --no-cache . -t nessus_scanner:latest
   - |
     csup upload nessus_scanner --tag latest \
       --consec-name sensors/nessus --consec-tag latest -rp
