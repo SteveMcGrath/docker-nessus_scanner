@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ "${TRAVIS_PULL_REQUEST}" != "false" ];then
+  exit
+fi
+
 docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
 
 VERSION=$(docker run --rm -it nessus_scanner:latest          \
