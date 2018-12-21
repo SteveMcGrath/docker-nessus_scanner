@@ -28,7 +28,28 @@ if [ -n "${ADMIN_USER}" ] && [ -n "${ADMIN_PASS}" ];then
         echo "-- Creating the administrative user based on the provided settings"
         /usr/bin/nessus_adduser.exp "${ADMIN_USER}" "${ADMIN_PASS}" > /dev/null
     fi
-fi 
+fi
 
-echo "-- Starting the Nessus service"
-/opt/nessus/sbin/nessus-service
+if [[ -n "${NO_ROOT}" ]];then
+    USER=nonprivuser
+    if [[ -n "${NON_PRIV_USER}" ]];then
+        USER="${NON_PRIV_USER}"
+        echo "-- Using user-specified non-privileged user ($USER)"
+    else
+        echo "-- No non-priviledged user specified; using default ($USER)"
+    fi
+
+    echo "-- Updating files to support --no-root"
+    # https://docs.tenable.com/nessus/6_9/Content/LinuxNonPrivileged.htm
+    useradd -r $USER
+    usermod -a -G tty $USER # https://github.com/moby/moby/issues/31243#issuecomment-406879017
+    setcap "cap_net_admin,cap_net_raw,cap_sys_resource+eip" /opt/nessus/sbin/nessusd
+    setcap "cap_net_admin,cap_net_raw,cap_sys_resource+eip" /opt/nessus/sbin/nessus-service
+    chmod 750 /opt/nessus/sbin/*
+    chown -R $USER:$USER /opt/nessus
+    echo "-- Starting the Nessus service with --no-root"
+    su $USER -c '/opt/nessus/sbin/nessus-service --no-root'
+else
+    echo "-- Starting the Nessus service"
+    /opt/nessus/sbin/nessus-service
+fi
