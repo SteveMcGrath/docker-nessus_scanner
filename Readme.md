@@ -44,7 +44,7 @@ docker run -dt \
 
 * **LINKING_KEY** _**(required)**_ - Linking key to use for linking the scanner to Tenable.io
 * **LICENSE** _**(required)**_ - Activation code (if not a Tenable.io linked scanner)
-* **SECURITYCENTER** _**(required)**_ - If the scanner is to be SecurityCenter linked, then simply set this variable to "Yes" instead of setting a _LICENSE_ or _LINKING_KEY_ variable.
+* **SECURITYCENTER** _**(required)**_ - If the scanner is to be SecurityCenter linked, then simply set this variable to `Yes` instead of setting a _LICENSE_ or _LINKING_KEY_ variable.
 
 ## The following are **OPTIONAL** parameters
 
@@ -56,7 +56,7 @@ docker run -dt \
 * **PROXY_USER** _(optional)_ - Proxy account username
 * **PROXY_PASS** _(optional)_ - Proxy account password
 * **PROXY_AGENT** _(optional)_ - Proxy agent string
-* **ADMIN_USER** _(optional)_ - Username for admin user creation
-* **ADMIN_PASS** _(optional)_ - Password for admin user creation
-* **NO_ROOT** _(optional)_ - Set to "Yes" when wanting to [run Nessus as a non-privileged user](https://docs.tenable.com/nessus/6_9/Content/LinuxNonPrivileged.htm). You should only use this environment variable if you know _what_ you are doing and _why_ you are doing it.
-* **NON_PRIV_USER** _(optional)_ - If _NO_ROOT_ is set, you may use this to specify a username that will be created and used. If left unset, the default is ```nonprivuser```.
+* **ADMIN_USER** _(optional)_ - Username for admin user creation.  If not provided, defaults to `admin`.
+* **ADMIN_PASS** _(optional)_ - Password for admin user creation.  If not provided, a password will be generated.
+* **NO_ROOT** _(optional)_ - Set to `Yes` when wanting to [run Nessus as a non-privileged user](https://docs.tenable.com/nessus/6_9/Content/LinuxNonPrivileged.htm). You should only use this environment variable if you know _what_ you are doing and _why_ you are doing it.
+* **NON_PRIV_USER** _(optional)_ - If _NO_ROOT_ is set, you may use this to specify a username that will be created and used. If left unset, the default is `nessus`.
