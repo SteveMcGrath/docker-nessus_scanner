@@ -1,4 +1,9 @@
 #!/bin/bash
+
+if [ ! -n "${NON_PRIV_USER}" ];then
+    NON_PRIV_USER=nessus
+fi
+
 if [ ! -f /opt/nessus/var/nessus/first_run ];then
 
     echo "-- Initializing Nessus daemon for database creation"
@@ -41,11 +46,31 @@ if [ ! -f /opt/nessus/var/nessus/first_run ];then
     fi
 
     echo -e "\n-- Creating the administrative user based on the provided settings"
-    /usr/bin/nessus_adduser.exp "${ADMIN_USER}" "${ADMIN_PASS}"
+    /usr/bin/nessus_adduser.exp "${ADMIN_USER}" "${ADMIN_PASS}" > /dev/null
+
+    if [ -n "${NO_ROOT}" ];then
+        echo "-- Reconfiguring Nessus for a non-root configuration..."
+        echo "-- Creating user ${NON_PRIV_USER} to run the Nessus services..."
+        useradd -r ${NON_PRIV_USER}
+        usermod -a -F tty ${NON_PRIV_USER}
+
+        echo "-- Setting the appropriate permissions for the Nessus services..."
+        setcap "cap_net_admin,cap_net_raw,cap_sys_resource+eip" /opt/nessus/sbin/nessusd
+        setcap "cap_net_admin,cap_net_raw,cap_sys_resource+eip" /opt/nessus/sbin/nessus-service
+
+        echo "-- Changing the ownership of the Nessus installation to ${NON_PRIV_USER}"
+        chmod 750 /opt/nessus/sbin/*
+        chown -R $USER:$USER /opt/nessus
+    fi
     
     # Create the first_run file so that we know the initialization is complete.
     touch /opt/nessus/var/nessus/first_run
 fi
 
-echo "-- Starting the Nessus service"
-/opt/nessus/sbin/nessus-service
+if [ -n "${NO_ROOT}" ];then
+    echo "-- Starting the Nessus service as ${NON_PRIV_USER}"
+    su ${NON_PRIV_USER} -c '/opt/nessus/sbin/nessus-service --no-root'
+else
+    echo "-- Starting the Nessus service as root"
+    /opt/nessus/sbin/nessus-service
+fi
