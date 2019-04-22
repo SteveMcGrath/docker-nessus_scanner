@@ -21,8 +21,8 @@ RUN    yum -y update                                                    \
     && yum -y -q install Nessus expect                                  \
     && yum -y -q clean all                                              \
     && chmod 755 /usr/bin/nessus.sh                                     \
-    && chmod 755 /usr/bin/nessus_adduser.exp
-RUN    rm -f /opt/nessus/var/nessus/*.db*                               \
+    && chmod 755 /usr/bin/nessus_adduser.exp                            \
+    && rm -f /opt/nessus/var/nessus/*.db*                               \
     && rm -f /opt/nessus/var/nessus/master.key                          \
     && rm -f /opt/nessus/var/nessus/uuid                                \
     && rm -f /tmp/*                                                     \
@@ -32,7 +32,5 @@ RUN    rm -f /opt/nessus/var/nessus/*.db*                               \
     && ln -s /dev/stderr /opt/nessus/var/nessus/logs/nessusd.dump       \
     && echo -e "export PATH=$PATH:/opt/nessus/bin:/opt/nessus/sbin" >> /etc/bashrc
 
-VOLUME /opt/nessus/var/nessus
 EXPOSE 8834
-
 CMD ["/usr/bin/nessus.sh"]
