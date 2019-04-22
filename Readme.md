@@ -23,9 +23,7 @@ Each image is tagged with the major, minor, and patch releases.  The most curren
 # Usage
 
 ```
-docker volume create nessus_scanner_var
 docker run -dt \
-    -v nessus_scanner_var:/opt/nessus/var/nessus\
     -e LINKING_KEY={LINKING_KEY}\
     -e SCANNER_NAME={SCANNER_NAME}\
     --name nessus_scanner
@@ -52,7 +50,7 @@ docker run -dt \
 * **MANAGER_HOST** _(optional)_ - Nessus Manager address
 * **MANAGER_PORT** _(optional)_ - Nessus Manager service port
 * **PROXY_HOST** _(optional)_ - Proxy address
-* **PROXY_PORT** _(optional)_ - Proxy service port 
+* **PROXY_PORT** _(optional)_ - Proxy service port
 * **PROXY_USER** _(optional)_ - Proxy account username
 * **PROXY_PASS** _(optional)_ - Proxy account password
 * **PROXY_AGENT** _(optional)_ - Proxy agent string
