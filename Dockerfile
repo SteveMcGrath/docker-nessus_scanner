@@ -17,8 +17,7 @@ COPY nessus.sh nessus_adduser.exp /usr/bin/
 COPY yum.repo /etc/yum.repos.d/Tenable.repo
 COPY gpg.key /etc/pki/rpm-gpg/RPM-GPG-KEY-Tenable
 
-RUN    yum -y update                                                    \
-    && yum -y -q install Nessus expect                                  \
+RUN    yum -y -q install Nessus expect                                  \
     && yum -y -q clean all                                              \
     && chmod 755 /usr/bin/nessus.sh                                     \
     && chmod 755 /usr/bin/nessus_adduser.exp                            \
