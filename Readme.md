@@ -1,4 +1,4 @@
-# Nessus Scanner [![Build Status][status]][travis][![Docker Stars][stars]][docker][![Docker Pulls][pulls]][docker]
+# Unofficial Nessus Scanner [![Build Status][status]][travis][![Docker Stars][stars]][docker][![Docker Pulls][pulls]][docker]
 
 [status]: https://travis-ci.org/SteveMcGrath/docker-nessus_scanner.svg?branch=master
 [stars]: https://img.shields.io/docker/stars/stevemcgrath/nessus_scanner.svg
