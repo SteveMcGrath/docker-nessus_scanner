@@ -5,6 +5,16 @@ if [ ! -n "${NON_PRIV_USER}" ];then
 fi
 
 if [ ! -f /opt/nessus/var/nessus/first_run ];then
+    if [ -n "${NO_SYMLINK}" ];then
+        echo "-- Removing Symlinks to Log Files."
+        echo "   NOTE: This will mean that Nessus will log to the disk.  These"
+        echo "         logs are NOT MANAGED in any way and may cause storage"
+        echo "         issues.  You have been warned."
+        rm -f /opt/nessus/var/nessus/logs/nessusd.messages
+        rm -f /opt/nessus/var/nessus/logs/www_server.log
+        rm -f /opt/nessus/var/nessus/logs/backend.log
+        rm -f /opt/nessus/var/nessus/logs/nessusd.dump
+    fi
 
     echo "-- Initializing Nessus daemon for database creation"
     timeout 20 /opt/nessus/sbin/nessusd
