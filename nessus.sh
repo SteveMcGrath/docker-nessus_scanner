@@ -5,7 +5,7 @@ if [ ! -n "${NON_PRIV_USER}" ];then
 fi
 
 if [ ! -f /opt/nessus/var/nessus/first_run ];then
-    if [ -n "${NO_SYMLINK}" ];then
+    if [ "${NO_SYMLINK}" != "" ];then
         echo "-- Removing Symlinks to Log Files."
         echo "   NOTE: This will mean that Nessus will log to the disk.  These"
         echo "         logs are NOT MANAGED in any way and may cause storage"
