@@ -28,7 +28,6 @@ RUN    yum -y -q install Nessus expect                                  \
     && ln -s /dev/stdout /opt/nessus/var/nessus/logs/nessusd.messages   \
     && ln -s /dev/stdout /opt/nessus/var/nessus/logs/www_server.log     \
     && ln -s /dev/stdout /opt/nessus/var/nessus/logs/backend.log        \
-    && ln -s /dev/stderr /opt/nessus/var/nessus/logs/nessusd.dump       \
     && echo -e "export PATH=$PATH:/opt/nessus/bin:/opt/nessus/sbin" >> /etc/bashrc
 
 EXPOSE 8834
