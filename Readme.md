@@ -30,6 +30,8 @@ docker run -dt \
     stevemcgrath/nessus_scanner:latest
 ```
 
+If running from a Kubernetes pod make sure to set `tty: true`.
+
 # Modifications
 
 * `/opt/nessus/bin` and `/opt/nessus/sbin` have been added to the system $PATH variable.
