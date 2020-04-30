@@ -16,10 +16,12 @@ if [ ! -f /opt/nessus/var/nessus/first_run ];then
         rm -f /opt/nessus/var/nessus/logs/nessusd.dump
     fi
 
-    echo "-- Initializing Nessus daemon for database creation"
-    timeout 20 /opt/nessus/sbin/nessusd
+    #echo "-- Initializing Nessus daemon for database creation"
+    #timeout 20 /opt/nessus/sbin/nessusd
 
     echo "-- New Nessus Installation, Attempting to license it using the provided configuration"
+    yes | /opt/nessus/sbin/nessuscli fix --reset
+
     if [ "$(/opt/nessus/sbin/nessuscli managed status | grep 'Linked to' | wc -l)" == "0" ] && [ -n "${LINKING_KEY}" ];then
         echo "-- Linking Scanner to Tenable.io"
         args=" --key=${LINKING_KEY}"
@@ -52,7 +54,7 @@ if [ ! -f /opt/nessus/var/nessus/first_run ];then
         echo "-----------------------------------------------------------------"
     fi
 
-    echo -e "\n-- Creating the administrative user based on the provided settings"
+    echo -e "-- Creating the administrative user based on the provided settings"
     /usr/bin/nessus_adduser.exp "${ADMIN_USER}" "${ADMIN_PASS}" > /dev/null
 
     if [ -n "${NO_ROOT}" ];then
