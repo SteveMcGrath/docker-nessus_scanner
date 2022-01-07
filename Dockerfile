@@ -1,17 +1,18 @@
 FROM centos:7
 
-ENV LINKING_KEY  ""
-ENV SCANNER_NAME ""
-ENV MANAGER_HOST ""
-ENV MANAGER_PORT ""
-ENV PROXY_HOST   ""
-ENV PROXY_PORT   ""
-ENV PROXY_USER   ""
-ENV PROXY_PASS   ""
-ENV PROXY_AGENT  ""
-ENV LICENSE      ""
-ENV ADMIN_USER   "admin"
-ENV ADMIN_PASS   ""
+ENV LINKING_KEY     ""
+ENV SCANNER_NAME    ""
+ENV SCANNER_GROUPS  ""
+ENV MANAGER_HOST    ""
+ENV MANAGER_PORT    ""
+ENV PROXY_HOST      ""
+ENV PROXY_PORT      ""
+ENV PROXY_USER      ""
+ENV PROXY_PASS      ""
+ENV PROXY_AGENT     ""
+ENV LICENSE         ""
+ENV ADMIN_USER      "admin"
+ENV ADMIN_PASS      ""
 
 COPY nessus_startup.sh nessus_adduser.exp /usr/bin/
 COPY yum.repo /etc/yum.repos.d/Tenable.repo
